@@ -156,10 +156,12 @@ class ChessPiece:
         
         
     def enPassant(self,y,x,bd):
+        if y + 1 <= 7:
           if bd[y + 1][x] !=  "   ":
               if bd[y + 1][x].sym == " P " and bd[y + 1][x].two and bd[y+1][x] != bd[self.ypos][self.xpos]:
                   bd[y + 1][x] =  "   "
                   return True
+        return False
 
 
     def checkMove(self, new_position,bd):
@@ -233,7 +235,8 @@ class Knight(ChessPiece):
         
     def checkMove(self, y,x,bd,c = False):
         if y-self.ypos == 0 or x-self.xpos == 0: return False #div error
-        if abs((y-self.ypos)/(x-self.xpos)) in (2.0,0.5): #uses gradient formula to check if its a 2 or 0.5 since knights will always move with +- 2 and +-1 in any direction
+        if abs(((y-self.ypos)**2) +((x-self.xpos)**2)) == 5:
+            print("knight pass")#uses gradient formula to check if its a 2 or 0.5 since knights will always move with +- 2 and +-1 in any direction
             if bd[y][x]!= "   ":# checks if a piece is there
                 if bd[y][x].colour == bd[self.ypos][self.xpos].colour: return False # check if its your piece is blocking
             if not c:
